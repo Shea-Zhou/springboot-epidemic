@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>疫情统计数据</title>
+</head>
+<body>
+<h3>国内数据统计如下</h3>
+<table>
+    <thead>
+    <tr>
+        <td>地区</td>
+        <td>现有确诊</td>
+        <td>累计确诊</td>
+        <td>治愈</td>
+        <td>死亡</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="data:${dataList}">
+            <td th:text="${data.area}">name</td>
+            <td th:text="${data.nowConfirm}">nowConfirm</td>
+            <td th:text="${data.confirm}">confirm</td>
+            <td th:text="${data.heal}">heal</td>
+            <td th:text="${data.dead}">dead</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

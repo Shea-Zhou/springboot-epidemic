@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data@AllArgsConstructor@NoArgsConstructor
 public class DataBean {
     private String area;
-    private int newConfirm;
+    private int nowConfirm;
     private int confirm;
     private int heal;
     private int dead;
