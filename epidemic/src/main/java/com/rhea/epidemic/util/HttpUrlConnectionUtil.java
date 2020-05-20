@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
  * 工具类 发送http请求获取响应信息
  */
 public class HttpUrlConnectionUtil {
-    static String getInfo(String urlStr){
+    public static String getInfo(String urlStr){
         HttpURLConnection connection;
         InputStream is = null;
         BufferedReader reader = null;
@@ -34,9 +34,9 @@ public class HttpUrlConnectionUtil {
             connection.setRequestProperty("Accept","application/json");
             // 发送请求
             connection.connect();
-            connection.getResponseCode();
+            int responseCode = connection.getResponseCode();
             int code = 200;
-            if (connection.getResponseCode()!=code){
+            if (responseCode!=code){
                 //TODO 此处添加异常处理
                 return "error code";
             }

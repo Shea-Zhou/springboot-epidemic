@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>同呼吸，共战“疫”</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{../echarts/echarts.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/main.css}">
+
+</head>
+<body class="container">
+<div class="con">
+    <!-- logo 标题 图片 -->
+    <div class="logo">
+        <span class="img img1"></span>
+        <span class="span1"></span>
+        <span class="img img2"></span>
+        <span class="span2"></span>
+        <span class="img img3"></span>
+    </div>
+    <!-- 中间菜单栏 -->
+    <div class="nav-box">
+        <div class="star_icon">
+            <div class="star left"></div>
+            <div class="star right"></div>
+        </div>
+        <div class="title_box">
+            <div class="title_item"><a href=""><span class="icon" style="background-position: 0 0 "></span>
+                <span class="title">国内疫情</span></a>
+            </div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -167px -240px "></span><span
+                    class="title">海外疫情</span></a>
+            </div>
+            <div class="title_item"><a href=""><span class="icon" style="background-position: 0 -180px "></span><span
+                    class="title">疫情速递</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -166px -180px "></span><span
+                    class="title">战役记录</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -249px -238px "></span><span
+                    class="title">复工复学</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -252px -180px "></span><span
+                    class="title">口罩攻略</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -82px -119px "></span><span
+                    class="title">免费问诊</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -84px -179px "></span><span
+                    class="title">健康自评</span></a></div>
+            <div class="title_item"><a href=""><span class="icon"
+                                                     style="background-position: -163px -60px "></span><span
+                    class="title">科普辟谣</span></a></div>
+        </div>
+    </div>
+    <!-- 信息展示 -->
+    <div class="info_box">
+        <div class="info_title">
+            <button id="domestic" class="title_text" style="border-top-left-radius: 30px">国内疫情</button>
+            <button id="abroad" class="title_text" style="border-top-right-radius: 30px">海外疫情</button>
+        </div>
+        <div class="info_timeText">
+            <span>统计截止至</span>
+            <span th:text="${total.lastUpdateTime}">今日凌晨0：00:00</span>
+        </div>
+        <div class="info_recentNumber">
+            <div class="info_bar grossConfirm" style="border-top-left-radius: 12px">
+                <div class="add">较上日<span class="addNum" th:text="${total.addConfirm}>=0?'+'+${total.addConfirm}:${total.addConfirm}"></span></div>
+                <div class="num" th:text="${total.confirm}"></div>
+                <div class="text">累计确诊</div>
+            </div>
+            <div class="info_bar grossHeal">
+                <div class="add">较上日<span class="addNum" th:text="${total.addHeal}>=0?'+'+${total.addHeal}:${total.addHeal}"></span></div>
+                <div class="num" th:text="${total.heal}"></div>
+                <div class="text">累计治愈</div>
+            </div>
+            <div class="info_bar grossDead" style="border-top-right-radius: 12px">
+                <div class="add">较上日<span class="addNum" th:text="${total.addDead}>=0?'+'+${total.addDead}:${total.addDead}"></span></div>
+                <div class="num" th:text="${total.dead}"></div>
+                <div class="text">累计死亡</div>
+            </div>
+            <div class="info_bar nowConfirm" style="border-bottom-left-radius: 12px">
+                <div class="add">较上日<span class="addNum" th:text="${total.addNowConfirm}>=0?'+'+${total.addNowConfirm}:${total.addNowConfirm}"></span></div>
+                <div class="num" th:text="${total.nowConfirm}">84487</div>
+                <div class="text">现有确诊</div>
+            </div>
+            <div class="info_bar noInfect">
+                <div class="add">较上日<span class="addNum" th:text="${total.addNoInfect}>=0?'+'+${total.addNoInfect}:${total.addNoInfect}"></span></div>
+                <div class="num" th:text="${total.noInfect}"></div>
+                <div class="text">无症状感染者</div>
+            </div>
+            <div class="info_bar grossImportCase" style="border-bottom-right-radius: 12px">
+                <div class="add">较上日<span class="addNum" th:text="${total.addImportedCase}>=0?'+'+${total.addImportedCase}:${total.addImportedCase}"></span></div>
+                <div class="num" th:text="${total.importedCase}"></div>
+                <div class="text">境外输入</div>
+            </div>
+        </div>
+        <div class="info_button">
+            <button type="button" class="confirm_btn btn_confirm">现有确诊</button>
+            <button type="button" class="confirm_btn btn_nowConfirm">累计确诊</button>
+        </div>
+        <div class="info_city"></div>
+        <div class="info_graph1">
+            <div>
+                <div class="canvas_box">
+                    <span class="share"></span>
+                    <div class="graph_top10">
+                        <div class="graph_title">境外输入省市TOP10</div>
+                        <div id="top10" class="canvas canvas1 graph1"></div>
+                    </div>
+                    <div class="graph_importGross" hidden>
+                        <div class="graph_title">境外输入新增趋势</div>
+                        <div id="importNew" class="canvas canvas1 graph2"></div>
+                    </div>
+                    <div class="graph_importGross" hidden>
+                        <div class="graph_title">境外输入累计趋势</div>
+                        <div id="importGross" class="canvas canvas1 graph3"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img th:src="@{../image/img/left.png}" class="img_left" id="img_left1">
+                <img th:src="@{../image/img/right.png}" class="img_right" id="img_right1">
+            </div>
+            <div class="canvas_button">
+                <button class="canvas_btn canvas_btn1 btn_graph1 active">境外输入<br>省市TOP10</button>
+                <button class="canvas_btn canvas_btn1 btn_graph2">境外输入<br>新增趋势</button>
+                <button class="canvas_btn canvas_btn1 btn_graph3">境外输入<br>累计趋势</button>
+            </div>
+        </div>
+        <div class="info_graph2">
+            <div>
+                <div class="canvas_box">
+                    <span class="share"></span>
+                    <div class="graph_nowConfirm">
+                        <div class="graph_title">全国现有确诊趋势</div>
+                        <div id="nowConfirm" class="canvas canvas2 graph4"></div>
+                    </div>
+                    <div class="graph_newConfirm" hidden>
+                        <div class="graph_title">全国疫情新增趋势</div>
+                        <div id="newConfirm" class="canvas canvas2 graph5"></div>
+                    </div>
+                    <div class="graph_gross" hidden>
+                        <div class="graph_title">全国疫情累计趋势</div>
+                        <div id="gross" class="canvas canvas2 graph6"></div>
+                    </div>
+                    <div class="graph_rate" hidden>
+                        <div class="graph_title">全国治愈率/病死率</div>
+                        <div id="rate" class="canvas canvas2 graph7"></div>
+                    </div>
+                </div>
+                <div>
+                    <img th:src="@{../image/img/left.png}" class="img_left" id="img_left2">
+                    <img th:src="@{../image/img/right.png}" class="img_right" id="img_right2">
+                </div>
+                <div class="canvas_button">
+                    <button class="canvas_btn canvas_btn2 btn_graph4 active">全国现有<br>确诊趋势</button>
+                    <button class="canvas_btn canvas_btn2 btn_graph5">全国疫情<br>新增趋势</button>
+                    <button class="canvas_btn canvas_btn2 btn_graph6">全国疫情<br>累计趋势</button>
+                    <button class="canvas_btn canvas_btn2 btn_graph7">治愈率<br>病死率</button>
+                </div>
+            </div>
+            <div class="info_graph3">
+                <div class="canvas_box">
+                    <span class="share"></span>
+                    <div class="graph_pie">
+                        <div class="graph_title">全国现有确诊构成</div>
+                        <div id="pie" class="canvas graph8"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <div>
+                    <span>中国疫情（包括港澳台）</span>
+                    <span>7:00-10:00为更新高峰，数据如有滞后请谅解</span>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td class="tab_title tab_area">地区</td>
+                            <td class="tab_title tab_nowConfirm">现有确诊</td>
+                            <td class="tab_title tab_confirm">累计确诊</td>
+                            <td class="tab_title tab_heal">治愈</td>
+                            <td class="tab_title tab_dead">死亡</td>
+                            <td class="tab_title tab_info">疫情</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="data:${provinceList}">
+                            <td class="down"></td>
+                            <td th:text="${data.name}" class="data" >name</td>
+                            <td th:text="${data.nowConfirm}" class="data add_data">nowConfirm</td>
+                            <td th:text="${data.confirm}" class="data">confirm</td>
+                            <td th:text="${data.heal}" class="data">heal</td>
+                            <td th:text="${data.dead}" class="data">dead</td>
+                            <td class="data">详情</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="info"></div>
+        <div class="info"></div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="JavaScript">
+    /*<![CDATA[*/
+    //日期
+    let dateStr = [[${dateList}]];
+    //图一 top10 柱状图
+    let chart1 = echarts.init(document.getElementById("top10"));
+    let top10Str = new Array();
+    let nameStr = new Array();
+    let listTop10 = /*[[${listTop10}]]*/ null;
+    $.each(JSON.parse(listTop10), function (i, n) {
+        nameStr.push(n.name);
+        top10Str.push(n.confirm);
+    });
+    // 指定图表的配置项和数据
+    let option1 = {
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        xAxis: {
+            // 转化为json对象
+            data: nameStr,
+            axisTick: {
+                alignWithLabel: true
+            },
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '境外输入',
+                type: 'bar',
+                barWidth: '40%',
+                data: top10Str,
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            let colorList = ['#f06161', '#f26a5f', '#f77f5b', '#f8835a', '#f98a59', '#fc9957', '#fc9957', '#fc9957', '#fc9957', '#fc9957'];
+                            return colorList[params.dataIndex]
+                        }
+                    },
+                },
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    chart1.setOption(option1);
+    //图二 境外输入新增趋势
+    let chart2 = echarts.init(document.getElementById("importNew"));
+    let newImportCaseStr = /*[[${newImportCaseList}]]*/ null;
+    let option2 = {
+        color: ['#f38283'],
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '境外输入新增',
+                icon: 'rect',
+            }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '境外输入新增',
+            data: JSON.parse(newImportCaseStr),
+            type: 'line'
+        }]
+    };
+    chart2.setOption(option2);
+    //图三 境外输入累计趋势
+    let chart3 = echarts.init(document.getElementById("importGross"));
+    let grossImportCaseStr = /*[[${grossImportCaseList}]]*/ null;
+    let option3 = {
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '境外输入累计',
+                icon: 'rect',
+            }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '境外输入累计',
+            data: JSON.parse(grossImportCaseStr),
+            // data: nowConfirmStr,
+            type: 'line'
+        }]
+    };
+    chart3.setOption(option3);
+    // 图四 全国现有确诊趋势
+    let chart4 = echarts.init(document.getElementById("nowConfirm"));
+    let nowConfirmStr = /*[[${nowConfirmList}]]*/ null;
+    // 指定图表的配置项和数据
+    let option4 = {
+        color: '#ff7b7c',
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '现有确诊',
+                icon: 'rect',
+            }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '现有确诊',
+            data: JSON.parse(nowConfirmStr),
+            // data: nowConfirmStr,
+            type: 'line'
+        }]
+    };
+    chart4.setOption(option4);
+    // 图五 全国疫情新增趋势
+    let chart5 = echarts.init(document.getElementById("newConfirm"));
+    let newConfirmStr = /*[[${newConfirmList}]]*/ null;
+    let newSuspectStr = /*[[${newSuspectList}]]*/ null;
+    let option5 = {
+        color: ['#e96873', '#ffd661'],
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '新增确诊',
+                icon: 'rect',
+            },
+                {
+                    name: '新增疑似',
+                    icon: 'rect',
+                }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '新增确诊',
+            data: JSON.parse(newConfirmStr),
+            // data: nowConfirmStr,
+            type: 'line',
+        }, {
+            name: '新增疑似',
+            data: JSON.parse(newSuspectStr),
+            type: 'line'
+        }]
+    };
+    chart5.setOption(option5);
+    // 图六 全国疫情累计趋势
+    let chart6 = echarts.init(document.getElementById("gross"));
+    let grossConfirmStr = /*[[${grossConfirmList}]]*/ null;
+    let grossHeaStr = /*[[${grossHealList}]]*/ null;
+    let grossDeadStr = /*[[${grossDeadList}]]*/ null;
+    let option6 = {
+        color: ['#9b0a0e', '#65b379', '#87878b'],
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '累计确诊',
+                icon: 'rect',
+            },
+                {
+                    name: '累计治愈',
+                    icon: 'rect',
+                },
+                {
+                    name: '累计死亡',
+                    icon: 'rect',
+                }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '累计确诊',
+            data: JSON.parse(grossConfirmStr),
+            // data: nowConfirmStr,
+            type: 'line',
+        }, {
+            name: '累计治愈',
+            data: JSON.parse(grossHeaStr),
+            type: 'line',
+        }, {
+            name: '累计死亡',
+            data: JSON.parse(grossDeadStr),
+            type: 'line'
+        }]
+    };
+    chart6.setOption(option6);
+    // 图七 全国治愈率、死亡率
+    let chart7 = echarts.init(document.getElementById("rate"));
+    let deadRateStr = /*[[${deadRateList}]]*/ null;
+    let healRateStr = /*[[${healRateList}]]*/ null;
+    let option7 = {
+        color: ['#65b379', '#87878b'],
+        tooltip: {  // 提示框组件
+            trigger: 'axis'
+        },
+        legend: {  // 曲线含义说明
+            data: [{
+                name: '治愈率',
+                icon: 'rect',
+            },
+                {
+                    name: '病死率',
+                    icon: 'rect',
+                }],
+            left: 15,
+            top: 10,
+        },
+        grid: {
+            x: 80,
+        },
+        xAxis: {
+            // 转化为json对象
+            data: JSON.parse(dateStr)
+            // data: dateStr
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '治愈率',
+            data: JSON.parse(healRateStr),
+            // data: nowConfirmStr,
+            type: 'line',
+        }, {
+            name: '病死率',
+            data: JSON.parse(deadRateStr),
+            type: 'line',
+        }]
+    };
+    chart7.setOption(option7);
+    let chart8 = echarts.init(document.getElementById("pie"));
+    let pirStr = JSON.parse((/*[[${mapForm}]]*/ null));
+    let legendData = [];
+    let seriesData = [];
+    let name;
+    for (let key in pirStr) {
+        switch (key) {
+            case 'gat':
+                name = '港澳台输入病例';
+                break;
+            case 'importCase':
+                name = '境外输入病例';
+                break;
+            case 'province':
+                name = '31省本土病例';
+                break;
+        }
+        ;
+        legendData.push(name);
+        seriesData.push({
+            name: name + '  :  ' + pirStr[key] + '例',
+            value: pirStr[key],
+        });
+    }
+    let option8 = {
+        tooltip: {// 提示框组件
+            trigger: 'item',
+            formatter: '{b} <br/> ({d}%)',
+        },
+        legend: {  // 曲线含义说明
+            show: true,
+            data: legendData,
+        },
+        color: ['#ff4d4d', '#ffd978', '#ff935c'],
+        series: [
+            {
+                type: 'pie',
+                radius: '70%',
+                center: ['50%', '50%'],
+                data: seriesData,
+            }
+        ]
+    };
+    chart8.setOption(option8);
+    /*]]>*/
+</script>
+<script type="text/javascript" th:inline="JavaScript">
+    let icon1 = $("#img_left1");
+    let icon2 = $("#img_right1");
+    let icon3 = $("#img_left2");
+    let icon4 = $("#img_right2");
+    let btn_graph1 = $(".canvas_btn1");
+    let btn_graph2 = $(".canvas_btn2");
+    let graph1 = $(".canvas1");
+    let graph2 = $(".canvas2");
+    let index1 = 0;
+    let index2 = 0;
+    icon1.click(function () {
+        clickHandle1(graph1, btn_graph1);
+    });
+    icon2.click(function () {
+        clickHandle2(graph1, btn_graph1);
+    });
+    icon3.click(function () {
+        clickHandle3(graph2, btn_graph2);
+    });
+    icon4.click(function () {
+        clickHandle4(graph2, btn_graph2);
+    });
+    function clickHandle1(e, g) {
+        if (index1 == 0) {
+            index1 = e.length - 1;
+        } else {
+            index1--;
+        }
+        for (let i = 0; i < e.length; i++) {
+            e[i].parentElement.setAttribute("hidden", "hidden");
+            $(g).eq(i).removeClass("active");
+        }
+        e[index1].parentElement.removeAttribute("hidden");
+        $(g).eq(index1).addClass("active");
+
+    };
+    function clickHandle2(e, g) {
+        if (index1 == e.length - 1) {
+            index1 = 0;
+        } else {
+            index1++;
+        }
+        for (let i = 0; i < e.length; i++) {
+            e[i].parentElement.setAttribute("hidden", "hidden");
+            $(g).eq(i).removeClass("active");
+        }
+        e[index1].parentElement.removeAttribute("hidden");
+        $(g).eq(index1).addClass("active");
+    };
+    function clickHandle3(e, g) {
+        if (index2 == 0) {
+            index2 = e.length - 1;
+        } else {
+            index2--;
+        }
+        for (let i = 0; i < e.length; i++) {
+            e[i].parentElement.setAttribute("hidden", "hidden");
+            $(g).eq(i).removeClass("active");
+        }
+        e[index2].parentElement.removeAttribute("hidden");
+        $(g).eq(index2).addClass("active");
+
+    };
+    function clickHandle4(e, g) {
+        if (index2 == e.length - 1) {
+            index2 = 0;
+        } else {
+            index2++;
+        }
+        for (let i = 0; i < e.length; i++) {
+            e[i].parentElement.setAttribute("hidden", "hidden");
+            $(g).eq(i).removeClass("active");
+        }
+        e[index2].parentElement.removeAttribute("hidden");
+        $(g).eq(index2).addClass("active");
+    };
+    btn_graph1.each(function (i) {
+        $(this).click(function () {
+            for (let j = 0; j < btn_graph1.length; j++) {
+                graph1[j].parentElement.setAttribute("hidden", "hidden");
+            }
+            graph1[i].parentElement.removeAttribute("hidden");
+
+        });
+
+    });
+    btn_graph2.each(function (i) {
+        $(this).click(function () {
+            for (let j = 0; j < btn_graph2.length; j++) {
+                graph2[j].parentElement.setAttribute("hidden", "hidden");
+            }
+            graph2[i].parentElement.removeAttribute("hidden");
+
+        });
+    });
+</script>
+<script type="text/javascript" th:inline="JavaScript">
+    $(function () {
+        let addData = $(".add_data");
+        addData.appendChild("<span class='add'></span>");
+    })
+</script>
+</body>
+</html>
