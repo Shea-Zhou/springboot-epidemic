@@ -46,10 +46,9 @@ public class DataController {
         model.addAttribute("cityList",cityList);
         List<MapData> nowList = new ArrayList<>();
         List<MapData> grossList = new ArrayList<>();
-        for (int j = 0; j < provinceList.size(); j++) {
-            ProvinceData p = provinceList.get(j);
-            nowList.add((new MapData(p.getName(),p.getNowConfirm())));
-            grossList.add((new MapData(p.getName(),p.getConfirm())));
+        for (ProvinceData p : provinceList) {
+            nowList.add((new MapData(p.getName(), p.getNowConfirm())));
+            grossList.add((new MapData(p.getName(), p.getConfirm())));
         }
         model.addAttribute("nowList",new Gson().toJson(nowList));
         model.addAttribute("grossList",new Gson().toJson(grossList));
@@ -67,7 +66,7 @@ public class DataController {
         List<Integer> grossDeadList = new ArrayList<>();
         List<String> deadRateList = new ArrayList<>();
         List<String> healRateList = new ArrayList<>();
-        Map mapForm = new HashMap(16);
+        Map<String, Integer> mapForm = new HashMap<>(16);
         for (int i =0; i< info.size();i++) {
             GraphData graphBean = info.get(i);
             dateList.add(graphBean.getDate());

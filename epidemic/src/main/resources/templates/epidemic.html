@@ -340,8 +340,8 @@
     let dateStr = [[${dateList}]];
     //图一 top10 柱状图
     let chart1 = echarts.init(document.getElementById("top10"));
-    let top10Str = new Array();
-    let nameStr = new Array();
+    let top10Str = [];
+    let nameStr = [];
     let listTop10 = /*[[${listTop10}]]*/ null;
     $.each(JSON.parse(listTop10), function (i, n) {
         nameStr.push(n.name);
@@ -643,7 +643,6 @@
                 name = '31省本土病例';
                 break;
         }
-        ;
         legendData.push(name);
         seriesData.push({
             name: name + '  :  ' + pirStr[key] + '例',
