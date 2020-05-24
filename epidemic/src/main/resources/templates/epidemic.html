@@ -2,16 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>同呼吸，共战“疫”</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}">
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{../echarts/echarts.min.js}"></script>
+    <title th:text="#{list.title}">同呼吸，共战“疫”</title>
     <link rel="stylesheet" type="text/css" th:href="@{../css/main.css}">
-
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{../echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{../echarts/china.js}"></script>
 </head>
 <body class="container">
-<div class="con">
+<div id="con" class="con">
     <!-- logo 标题 图片 -->
     <div class="logo">
         <span class="img img1"></span>
@@ -19,6 +17,14 @@
         <span class="img img2"></span>
         <span class="span2"></span>
         <span class="img img3"></span>
+        <div class="language_button">
+            <a id="btn_zh" type="button" th:href="@{/epidemic/index(lan='zh_CN')}" class="language_btn btn_confirm"
+               th:text="#{list.language1}">中文
+            </a>
+            <a id="btn_en" type="button" th:href="@{/epidemic/index(lan='en_US')}" class="language_btn btn_nowConfirm"
+               th:text="#{list.language2}">英文
+            </a>
+        </div>
     </div>
     <!-- 中间菜单栏 -->
     <div class="nav-box">
@@ -28,184 +34,305 @@
         </div>
         <div class="title_box">
             <div class="title_item"><a href=""><span class="icon" style="background-position: 0 0 "></span>
-                <span class="title">国内疫情</span></a>
+                <span class="title" th:text="#{list.title1}">国内疫情</span></a>
             </div>
-            <div class="title_item"><a href=""><span class="icon"
-                                                     style="background-position: -167px -240px "></span><span
-                    class="title">海外疫情</span></a>
+            <div id="aa" class="title_item"><a href="javascript:global1()"><span class="icon"
+                                                                                 style="background-position: -167px -240px "></span><span
+                    class="title" th:text="#{list.title2}">海外疫情</span></a>
             </div>
-            <div class="title_item"><a href=""><span class="icon" style="background-position: 0 -180px "></span><span
-                    class="title">疫情速递</span></a></div>
+            <div class="title_item"><a href="javascript:global2()"><span class="icon"
+                                                                         style="background-position: 0 -180px "></span><span
+                    class="title" th:text="#{list.title3}">疫情速递</span></a></div>
             <div class="title_item"><a href=""><span class="icon"
                                                      style="background-position: -166px -180px "></span><span
-                    class="title">战役记录</span></a></div>
+                    class="title" th:text="#{list.title4}">战役记录</span></a></div>
             <div class="title_item"><a href=""><span class="icon"
                                                      style="background-position: -249px -238px "></span><span
-                    class="title">复工复学</span></a></div>
+                    class="title" th:text="#{list.title5}">复工复学</span></a></div>
             <div class="title_item"><a href=""><span class="icon"
                                                      style="background-position: -252px -180px "></span><span
-                    class="title">口罩攻略</span></a></div>
+                    class="title" th:text="#{list.title6}">口罩攻略</span></a></div>
             <div class="title_item"><a href=""><span class="icon"
                                                      style="background-position: -82px -119px "></span><span
-                    class="title">免费问诊</span></a></div>
+                    class="title" th:text="#{list.title7}">免费问诊</span></a></div>
             <div class="title_item"><a href=""><span class="icon"
                                                      style="background-position: -84px -179px "></span><span
-                    class="title">健康自评</span></a></div>
-            <div class="title_item"><a href=""><span class="icon"
-                                                     style="background-position: -163px -60px "></span><span
-                    class="title">科普辟谣</span></a></div>
+                    class="title" th:text="#{list.title8}">健康自评</span></a></div>
+            <div class="title_item"><a href="javascript:global3()"><span class="icon"
+                                                                         style="background-position: -163px -60px "></span><span
+                    class="title" th:text="#{list.title9}">科普辟谣</span></a></div>
         </div>
     </div>
     <!-- 信息展示 -->
-    <div class="info_box">
-        <div class="info_title">
-            <button id="domestic" class="title_text" style="border-top-left-radius: 30px">国内疫情</button>
-            <button id="abroad" class="title_text" style="border-top-right-radius: 30px">海外疫情</button>
-        </div>
-        <div class="info_timeText">
-            <span>统计截止至</span>
-            <span th:text="${total.lastUpdateTime}">今日凌晨0：00:00</span>
-        </div>
-        <div class="info_recentNumber">
-            <div class="info_bar grossConfirm" style="border-top-left-radius: 12px">
-                <div class="add">较上日<span class="addNum" th:text="${total.addConfirm}>=0?'+'+${total.addConfirm}:${total.addConfirm}"></span></div>
-                <div class="num" th:text="${total.confirm}"></div>
-                <div class="text">累计确诊</div>
+    <div class="info_box" id="info_box">
+        <div id="china_box">
+            <div class="info_title">
+                <button id="domestic" class="title_text" style="border-top-left-radius: 30px" th:text="#{list.title1}">
+                    国内疫情
+                </button>
+                <button id="abroad" class="title_text" style="border-top-right-radius: 30px" th:text="#{list.title2}">
+                    海外疫情
+                </button>
             </div>
-            <div class="info_bar grossHeal">
-                <div class="add">较上日<span class="addNum" th:text="${total.addHeal}>=0?'+'+${total.addHeal}:${total.addHeal}"></span></div>
-                <div class="num" th:text="${total.heal}"></div>
-                <div class="text">累计治愈</div>
+            <div class="info_timeText">
+                <span th:text="#{list.text1}">统计截止至</span>
+                <span th:text="${total.lastUpdateTime}">今日凌晨0：00:00</span>
             </div>
-            <div class="info_bar grossDead" style="border-top-right-radius: 12px">
-                <div class="add">较上日<span class="addNum" th:text="${total.addDead}>=0?'+'+${total.addDead}:${total.addDead}"></span></div>
-                <div class="num" th:text="${total.dead}"></div>
-                <div class="text">累计死亡</div>
-            </div>
-            <div class="info_bar nowConfirm" style="border-bottom-left-radius: 12px">
-                <div class="add">较上日<span class="addNum" th:text="${total.addNowConfirm}>=0?'+'+${total.addNowConfirm}:${total.addNowConfirm}"></span></div>
-                <div class="num" th:text="${total.nowConfirm}">84487</div>
-                <div class="text">现有确诊</div>
-            </div>
-            <div class="info_bar noInfect">
-                <div class="add">较上日<span class="addNum" th:text="${total.addNoInfect}>=0?'+'+${total.addNoInfect}:${total.addNoInfect}"></span></div>
-                <div class="num" th:text="${total.noInfect}"></div>
-                <div class="text">无症状感染者</div>
-            </div>
-            <div class="info_bar grossImportCase" style="border-bottom-right-radius: 12px">
-                <div class="add">较上日<span class="addNum" th:text="${total.addImportedCase}>=0?'+'+${total.addImportedCase}:${total.addImportedCase}"></span></div>
-                <div class="num" th:text="${total.importedCase}"></div>
-                <div class="text">境外输入</div>
-            </div>
-        </div>
-        <div class="info_button">
-            <button type="button" class="confirm_btn btn_confirm">现有确诊</button>
-            <button type="button" class="confirm_btn btn_nowConfirm">累计确诊</button>
-        </div>
-        <div class="info_city"></div>
-        <div class="info_graph1">
-            <div>
-                <div class="canvas_box">
-                    <span class="share"></span>
-                    <div class="graph_top10">
-                        <div class="graph_title">境外输入省市TOP10</div>
-                        <div id="top10" class="canvas canvas1 graph1"></div>
-                    </div>
-                    <div class="graph_importGross" hidden>
-                        <div class="graph_title">境外输入新增趋势</div>
-                        <div id="importNew" class="canvas canvas1 graph2"></div>
-                    </div>
-                    <div class="graph_importGross" hidden>
-                        <div class="graph_title">境外输入累计趋势</div>
-                        <div id="importGross" class="canvas canvas1 graph3"></div>
-                    </div>
+            <div class="info_recentNumber">
+                <div class="info_bar grossConfirm" style="border-top-left-radius: 12px">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum"
+                          th:text="${total.addConfirm}>=0?'+'+${total.addConfirm}:${total.addConfirm}"></span>
+                    <div class="num" th:text="${total.confirm}"></div>
+                    <div class="text" th:text="#{list.gross_text1}">累计确诊</div>
+                </div>
+                <div class="info_bar grossHeal">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum" th:text="${total.addHeal}>=0?'+'+${total.addHeal}:${total.addHeal}"></span>
+                    <div class="num" th:text="${total.heal}"></div>
+                    <div class="text" th:text="#{list.gross_text2}">累计治愈</div>
+                </div>
+                <div class="info_bar grossDead" style="border-top-right-radius: 12px">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum" th:text="${total.addDead}>=0?'+'+${total.addDead}:${total.addDead}"></span>
+                    <div class="num" th:text="${total.dead}"></div>
+                    <div class="text" th:text="#{list.gross_text3}">累计死亡</div>
+                </div>
+                <div class="info_bar nowConfirm" style="border-bottom-left-radius: 12px">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum"
+                          th:text="${total.addNowConfirm}>=0?'+'+${total.addNowConfirm}:${total.addNowConfirm}"></span>
+                    <div class="num" th:text="${total.nowConfirm}">84487</div>
+                    <div class="text" th:text="#{list.gross_text4}">现有确诊</div>
+                </div>
+                <div class="info_bar noInfect">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum"
+                          th:text="${total.addNoInfect}>=0?'+'+${total.addNoInfect}:${total.addNoInfect}"></span>
+                    <div class="num" th:text="${total.noInfect}"></div>
+                    <div class="text" th:text="#{list.gross_text5}">无症状感染者</div>
+                </div>
+                <div class="info_bar grossImportCase" style="border-bottom-right-radius: 12px">
+                    <span class="add" th:text="#{list.gross_add}">较上日</span>
+                    <span class="addNum"
+                          th:text="${total.addImportedCase}>=0?'+'+${total.addImportedCase}:${total.addImportedCase}"></span>
+                    <div class="num" th:text="${total.importedCase}"></div>
+                    <div class="text" th:text="#{list.gross_text6}">境外输入</div>
                 </div>
             </div>
-            <div>
-                <img th:src="@{../image/img/left.png}" class="img_left" id="img_left1">
-                <img th:src="@{../image/img/right.png}" class="img_right" id="img_right1">
+            <div class="info_button">
+                <button id="btn_now" type="button" class="confirm_btn btn_confirm" th:text="#{list.graph1_button1}">
+                    现有确诊
+                </button>
+                <button id="btn_gross" type="button" class="confirm_btn btn_nowConfirm"
+                        th:text="#{list.graph1_button2}">累计确诊
+                </button>
             </div>
-            <div class="canvas_button">
-                <button class="canvas_btn canvas_btn1 btn_graph1 active">境外输入<br>省市TOP10</button>
-                <button class="canvas_btn canvas_btn1 btn_graph2">境外输入<br>新增趋势</button>
-                <button class="canvas_btn canvas_btn1 btn_graph3">境外输入<br>累计趋势</button>
+            <div class="info_city">
+                <div class="graph_title city_title" id="now_title" th:text="#{list.graph1_title1}">国内现有确诊</div>
+                <div class="graph_title city_title" id="grossP_title" hidden th:text="#{list.graph1_title2}">全国累计确诊
+                </div>
+                <div class="graph_china" id="graph_china">
+                    <div class="now" id="now"></div>
+                    <div class="gross" id="grossP" hidden></div>
+                </div>
             </div>
-        </div>
-        <div class="info_graph2">
-            <div>
-                <div class="canvas_box">
-                    <span class="share"></span>
-                    <div class="graph_nowConfirm">
-                        <div class="graph_title">全国现有确诊趋势</div>
-                        <div id="nowConfirm" class="canvas canvas2 graph4"></div>
-                    </div>
-                    <div class="graph_newConfirm" hidden>
-                        <div class="graph_title">全国疫情新增趋势</div>
-                        <div id="newConfirm" class="canvas canvas2 graph5"></div>
-                    </div>
-                    <div class="graph_gross" hidden>
-                        <div class="graph_title">全国疫情累计趋势</div>
-                        <div id="gross" class="canvas canvas2 graph6"></div>
-                    </div>
-                    <div class="graph_rate" hidden>
-                        <div class="graph_title">全国治愈率/病死率</div>
-                        <div id="rate" class="canvas canvas2 graph7"></div>
+            <div class="info_graph1">
+                <div>
+                    <div class="canvas_box">
+                        <span class="share"></span>
+                        <div class="graph_top10">
+                            <div class="graph_title" th:text="#{list.graph2_title1}">境外输入省市TOP10</div>
+                            <div id="top10" class="canvas canvas1 graph1"></div>
+                        </div>
+                        <div class="graph_importGross" hidden>
+                            <div class="graph_title" th:text="#{list.graph2_title2}">境外输入新增趋势</div>
+                            <div id="importNew" class="canvas canvas1 graph2"></div>
+                        </div>
+                        <div class="graph_importGross" hidden>
+                            <div class="graph_title" th:text="#{list.graph2_title3}">境外输入累计趋势</div>
+                            <div id="importGross" class="canvas canvas1 graph3"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <img th:src="@{../image/img/left.png}" class="img_left" id="img_left2">
-                    <img th:src="@{../image/img/right.png}" class="img_right" id="img_right2">
+                    <img th:src="@{../image/img/left.png}" class="img_left" id="img_left1">
+                    <img th:src="@{../image/img/right.png}" class="img_right" id="img_right1">
                 </div>
                 <div class="canvas_button">
-                    <button class="canvas_btn canvas_btn2 btn_graph4 active">全国现有<br>确诊趋势</button>
-                    <button class="canvas_btn canvas_btn2 btn_graph5">全国疫情<br>新增趋势</button>
-                    <button class="canvas_btn canvas_btn2 btn_graph6">全国疫情<br>累计趋势</button>
-                    <button class="canvas_btn canvas_btn2 btn_graph7">治愈率<br>病死率</button>
+                    <button class="canvas_btn canvas_btn1 btn_graph1 active" th:text="#{list.graph2_button1}">境外输入<br>省市TOP10
+                    </button>
+                    <button class="canvas_btn canvas_btn1 btn_graph2" th:text="#{list.graph2_button2}">境外输入<br>新增趋势
+                    </button>
+                    <button class="canvas_btn canvas_btn1 btn_graph3" th:text="#{list.graph2_button3}">境外输入<br>累计趋势
+                    </button>
                 </div>
             </div>
-            <div class="info_graph3">
-                <div class="canvas_box">
-                    <span class="share"></span>
-                    <div class="graph_pie">
-                        <div class="graph_title">全国现有确诊构成</div>
-                        <div id="pie" class="canvas graph8"></div>
+            <div class="info_graph2">
+                <div>
+                    <div class="canvas_box">
+                        <span class="share"></span>
+                        <div class="graph_nowConfirm">
+                            <div class="graph_title" th:text="#{list.graph3_title1}">全国现有确诊趋势</div>
+                            <div id="nowConfirm" class="canvas canvas2 graph4"></div>
+                        </div>
+                        <div class="graph_newConfirm" hidden>
+                            <div class="graph_title" th:text="#{list.graph3_title2}">全国疫情新增趋势</div>
+                            <div id="newConfirm" class="canvas canvas2 graph5"></div>
+                        </div>
+                        <div class="graph_gross" hidden>
+                            <div class="graph_title" th:text="#{list.graph3_title3}">全国疫情累计趋势</div>
+                            <div id="gross" class="canvas canvas2 graph6"></div>
+                        </div>
+                        <div class="graph_rate" hidden>
+                            <div class="graph_title" th:text="#{list.graph3_title4}">全国治愈率/病死率</div>
+                            <div id="rate" class="canvas canvas2 graph7"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{../image/img/left.png}" class="img_left" id="img_left2">
+                        <img th:src="@{../image/img/right.png}" class="img_right" id="img_right2">
+                    </div>
+                    <div class="canvas_button">
+                        <button class="canvas_btn canvas_btn2 btn_graph4 active" th:text="#{list.graph3_button1}">
+                            全国现有<br>确诊趋势
+                        </button>
+                        <button class="canvas_btn canvas_btn2 btn_graph5" th:text="#{list.graph3_button2}">全国疫情<br>新增趋势
+                        </button>
+                        <button class="canvas_btn canvas_btn2 btn_graph6" th:text="#{list.graph3_button3}">全国疫情<br>累计趋势
+                        </button>
+                        <button class="canvas_btn canvas_btn2 btn_graph7" th:text="#{list.graph3_button4}">治愈率<br>病死率
+                        </button>
+                    </div>
+                </div>
+                <div class="info_graph3">
+                    <div class="canvas_box">
+                        <span class="share"></span>
+                        <div class="graph_pie">
+                            <div class="graph_title" th:text="#{list.graph4_title1}">全国现有确诊构成</div>
+                            <div id="pie" class="canvas graph8"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="info">
-                <div>
-                    <span>中国疫情（包括港澳台）</span>
-                    <span>7:00-10:00为更新高峰，数据如有滞后请谅解</span>
-                    <table>
-                        <thead>
-                        <tr>
-                            <td></td>
-                            <td class="tab_title tab_area">地区</td>
-                            <td class="tab_title tab_nowConfirm">现有确诊</td>
-                            <td class="tab_title tab_confirm">累计确诊</td>
-                            <td class="tab_title tab_heal">治愈</td>
-                            <td class="tab_title tab_dead">死亡</td>
-                            <td class="tab_title tab_info">疫情</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="data:${provinceList}">
-                            <td class="down"></td>
-                            <td th:text="${data.name}" class="data" >name</td>
-                            <td th:text="${data.nowConfirm}" class="data add_data">nowConfirm</td>
-                            <td th:text="${data.confirm}" class="data">confirm</td>
-                            <td th:text="${data.heal}" class="data">heal</td>
-                            <td th:text="${data.dead}" class="data">dead</td>
-                            <td class="data">详情</td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="info_text">
+                <p class="info_text_title" th:text="#{list.text2}">中国疫情（包括港澳台）</p>
+                <p class="info_text_sub_title" th:text="#{list.text3}">7:00-10:00为更新高峰，数据如有滞后请谅解</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <td class="tab_title tab_area" th:text="#{list.box_title1}">地区</td>
+                        <td class="tab_title tab_nowConfirm" th:text="#{list.box_title2}">现有确诊</td>
+                        <td class="tab_title tab_confirm" th:text="#{list.box_title3}">累计确诊</td>
+                        <td class="tab_title tab_heal" th:text="#{list.box_title4}">治愈</td>
+                        <td class="tab_title tab_dead" th:text="#{list.box_title5}">死亡</td>
+                        <td class="tab_title tab_info" th:text="#{list.box_title6}">疫情</td>
+                    </tr>
+                    </thead>
+                    <tbody th:each="data,dataStat:${provinceList}">
+                    <tr>
+                        <td th:text="${data.name}" class="data">name</td>
+                        <td th:text="${data.nowConfirm}" class="data add_data">nowConfirm
+                        <td th:text="${data.confirm}" class="data">confirm</td>
+                        <td th:text="${data.heal}" class="data">heal</td>
+                        <td th:text="${data.dead}" class="data">dead</td>
+                        <td class="data">详情</td>
+                    </tr>
+                    <tr>
+                        <td class="btn_down"></td>
+                        <td class="btn_top"></td>
+                    </tr>
+                    <tr>
+                        <td class="data_add">
+                            <span>
+                                <span th:text="${data.compareNum}>0?'较上日':${data.compareDay}">1</span>
+                                <span th:text="${data.compareNum}>0?'':'天'">天</span>
+                                <span th:text="${data.compareNum}>0?'+'+${data.compareNum}:${data.compareNum}">0</span>
+                                <span th:text="${data.compareNum}>0?'':'新增'">新增</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr th:each="cityData:${data.cityDataList}" hidden th:class="${dataStat.index+1}">
+                        <td th:text="${cityData.name}" class="city_data">name</td>
+                        <td th:text="${cityData.nowConfirm}" class="city_data">nowConfirm</td>
+                        <td th:text="${cityData.confirm}" class="city_data">confirm</td>
+                        <td th:text="${cityData.heal}" class="city_data">heal</td>
+                        <td th:text="${cityData.dead}" class="city_data">dead</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p class="info_text_sub_title source" th:text="#{list.text4}">数据来源：腾讯新闻每日公开数据</p>
+            </div>
+        </div>
+        <div class="info_inform">
+            <p class="inform_title" th:text="#{list.text5}">新冠肺炎预防须知</p>
+            <div class="inform_box">
+                <div class="text_box">
+                    <div class="inform1">
+                        <img class="inform_img" src="../image/img/0.png">
+                        <div class="img_title" th:text="#{list.box2_title1}">个人清洁</div>
+                    </div>
+                    <div class="inform2">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text1}">经常保持双手清洁，尤其在触摸口、鼻或眼之前。</div>
+                    </div>
+                    <div class="inform3">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text2}">经常用洗手液和清水清洗双手，搓手最少20秒，并用纸巾擦干。</div>
+                    </div>
+                    <div class="inform4">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text3}">
+                            打喷嚏或咳嗽时应用纸巾掩盖口鼻，把用过的纸巾弃置于有盖垃圾箱内，然后彻底清洁双手。
+                        </div>
+                    </div>
+                    <div class="inform5">
+                        <img class="inform_img" src="../image/img/1.png">
+                        <div class="img_title" th:text="#{list.box2_title2}">尽量避免</div>
+                    </div>
+                    <div class="inform6">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text4}">减少前往人流密集的场所。如不可避免，应戴上外科口罩。</div>
+                    </div>
+                    <div class="inform7">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text5}">避免到访医院。如有必要到访医院，应佩戴外科口罩及时刻注重个人和手部卫生。</div>
+                    </div>
+                    <div class="inform8">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text6}">避免接触动物（包括野味）、禽鸟或其粪便；避免到海鲜、活禽市场或农场。</div>
+                    </div>
+                    <div class="inform9">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text7}">切勿进食野味及切勿光顾有提供野味的餐馆。</div>
+                    </div>
+                    <div class="inform10">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text8}">注意食物安全和卫生，避免进食或饮用生或未熟透的动物产品，包括奶类、蛋类和肉类。
+                        </div>
+                    </div>
+                    <div class="inform11">
+                        <img class="inform_img" src="../image/img/2.png">
+                        <div class="img_title" th:text="#{list.box2_title3}">尽快就诊</div>
+                    </div>
+                    <div class="inform12">
+                        <div class="inform_point"></div>
+                        <div class="inform_text" th:text="#{list.box2_text9}">如有身体不适，特别是有发烧或咳嗽，应戴上外科口罩并尽快就诊。</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="info"></div>
-        <div class="info"></div>
     </div>
+    <!--        <div class="global_box">-->
+    <!--            <iframe id="global1" style="width: 640px;height: 1910px;position: relative;margin-top: -40px;left: -55px" hidden-->
+    <!--                    src="https://atlas.yidianzixun.com/app/epidemic-global?yidian_appid=browser"></iframe>-->
+    <!--            <iframe id="global2" style="width: 640px;height: 1910px;position: relative;margin-top: -40px;left: -55px" hidden-->
+    <!--                    src="https://i.snssdk.com/feoffline/hot_list/template/hot_list/forum_tab_external.html?aid=100&show_single_widget=2&click_from=oppo_liulanqi&utm_medium=oppo_SARS"></iframe>-->
+    <!--            <iframe id="global9" style="width: 640px;height: 1910px;position: relative;margin-top: -40px;left: -55px" hidden-->
+    <!--                    src="https://atlas.yidianzixun.com/hotevent/page?id=5e280fdab1ee130064e794d4&yidian_docid=0OTSY7xo&yidian_docid=0OTSY7xo&yidian_bs_entry=feedsnews&__barStyle__=1_1&yidian_s=browser&__statParams__=sourceMedia&__source__=yidian&yidian_sourceMedia=yidian&yidian_appid=browser&yidian_openv=&__pf__=detail&yidian_noAd=1"></iframe>-->
+    <!--        </div>-->
+</div>
+
 </div>
 <script type="text/javascript" th:inline="JavaScript">
     /*<![CDATA[*/
@@ -531,6 +658,7 @@
         legend: {  // 曲线含义说明
             show: true,
             data: legendData,
+            color: '#fff',
         },
         color: ['#ff4d4d', '#ffd978', '#ff935c'],
         series: [
@@ -539,10 +667,93 @@
                 radius: '70%',
                 center: ['50%', '50%'],
                 data: seriesData,
+                label: {
+                    textStyle: {
+                        color: '#000',
+                        fontSize:14
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        length: 20,  // 改变标示线的长度
+                        lineStyle: {
+                            color: "#000", // 改变标示线的颜色
+                        }
+                    }
+                },
             }
         ]
     };
     chart8.setOption(option8);
+    let chart9 = echarts.init(document.getElementById("now"));
+    let chart10 = echarts.init(document.getElementById("grossP"));
+    let grossStr = /*[[${grossList}]]*/ null;
+    let nowStr = /*[[${nowList}]]*/ null;
+    option9 = {
+        tooltip: {
+            trigger: 'item'
+        },
+        visualMap: {
+            type: 'piecewise',
+            pieces: [
+                {min: 10000, label: '> 10000 人', color: "#de1f05",},
+                {min: 1000, max: 9999, label: '1000 - 9999 人', color: '#ff2736',},
+                {min: 500, max: 999, label: '500 - 999 人', color: '#ff6341',},
+                {min: 100, max: 499, label: '100 - 499 人', color: '#ffa577',},
+                {min: 10, max: 99, label: '10 - 99 人', color: '#ffcea0',},
+                {min: 1, max: 9, label: '1 - 9 人', color: '#ffe7b2',},
+                {value: 0, label: '0 人', color: '#e2ebf4',},
+            ],
+            color: ['#E0022B', '#E09107', '#A3E00B']
+        },
+        series: [
+            {
+                name: '国内现有确诊',
+                type: 'map',
+                mapType: 'china',
+                roam: false,
+                label: {
+                    show: true,
+                    color: '#000'
+                },
+                data: JSON.parse(nowStr)
+            }
+        ]
+    };
+    chart9.setOption(option9);
+    option10 = {
+        tooltip: {
+            trigger: 'item'
+        },
+        visualMap: {
+            type: 'piecewise',
+            pieces: [
+                {min: 10000, label: '> 10000 人', color: "#de1f05",},
+                {min: 1000, max: 9999, label: '1000 - 9999 人', color: '#ff2736',},
+                {min: 500, max: 999, label: '500 - 999 人', color: '#ff6341',},
+                {min: 100, max: 499, label: '100 - 499 人', color: '#ffa577',},
+                {min: 10, max: 99, label: '10 - 99 人', color: '#ffcea0',},
+                {min: 1, max: 9, label: '1 - 9 人', color: '#ffe7b2',},
+                {value: 0, label: '0 人', color: '#e2ebf4',},
+
+            ],
+            color: ['#E0022B', '#E09107', '#A3E00B']
+        },
+        series: [
+            {
+                name: '国内累计确诊',
+                type: 'map',
+                mapType: 'china',
+                roam: false,
+                label: {
+                    show: true,
+                    color: '#000'
+                },
+                data: JSON.parse(grossStr)
+            }
+        ]
+    };
+    chart10.setOption(option10);
     /*]]>*/
 </script>
 <script type="text/javascript" th:inline="JavaScript">
@@ -568,6 +779,7 @@
     icon4.click(function () {
         clickHandle4(graph2, btn_graph2);
     });
+
     function clickHandle1(e, g) {
         if (index1 == 0) {
             index1 = e.length - 1;
@@ -582,6 +794,7 @@
         $(g).eq(index1).addClass("active");
 
     };
+
     function clickHandle2(e, g) {
         if (index1 == e.length - 1) {
             index1 = 0;
@@ -595,6 +808,7 @@
         e[index1].parentElement.removeAttribute("hidden");
         $(g).eq(index1).addClass("active");
     };
+
     function clickHandle3(e, g) {
         if (index2 == 0) {
             index2 = e.length - 1;
@@ -609,6 +823,7 @@
         $(g).eq(index2).addClass("active");
 
     };
+
     function clickHandle4(e, g) {
         if (index2 == e.length - 1) {
             index2 = 0;
@@ -641,12 +856,93 @@
 
         });
     });
-</script>
-<script type="text/javascript" th:inline="JavaScript">
-    $(function () {
-        let addData = $(".add_data");
-        addData.appendChild("<span class='add'></span>");
+    let btn_gross = $("#btn_gross");
+    let btn_now = $("#btn_now");
+    btn_now.click(function () {
+        btn_now.css('background', '#ccdeff');
+        btn_gross.css('background', '#ffffff');
+        $("#grossP").attr('hidden', 'hidden');
+        $("#grossP_title").attr('hidden', 'hidden');
+        $("#now").removeAttr('hidden');
+        $("#now_title").removeAttr('hidden');
+    });
+    btn_gross.click(function () {
+        btn_gross.css('background', '#ccdeff');
+        btn_now.css('background', '#ffffff');
+        $("#now").attr('hidden', 'hidden');
+        $("#now_title").attr('hidden', 'hidden');
+        $("#grossP").removeAttr('hidden');
+        $("#grossP_title").removeAttr('hidden');
+    });
+
+    function global1() {
+        $("#china_box").attr('hidden', 'hidden');
+        $("#global2").attr('hidden', 'hidden');
+        $("#global9").attr('hidden', 'hidden');
+        $("#global1").removeAttr('hidden');
+    }
+
+    function global2() {
+        $("#china_box").attr('hidden', 'hidden');
+        $("#global1").attr('hidden', 'hidden');
+        $("#global9").attr('hidden', 'hidden');
+        $("#global2").removeAttr('hidden');
+    }
+
+    function global3() {
+        alert("ddd")
+        $("#china_box").attr('hidden', 'hidden');
+        $("#global1").attr('hidden', 'hidden');
+        $("#global2").attr('hidden', 'hidden');
+        $("#global9").removeAttr('hidden');
+    }
+
+    let btn_down = $(".btn_down");
+    let btn_top = $(".btn_top");
+    btn_down.each(function (i) {
+        $(this).click(function () {
+            for (let j = 0; j < btn_down.length; j++) {
+                let index = document.getElementsByClassName(j + 1);
+                $(index).attr('hidden', 'hidden');
+                if (btn_top[j].style.display == 'block') {
+                    $(index).removeAttr("hidden");
+                }
+            }
+            let index1 = document.getElementsByClassName(i + 1);
+            $(index1).removeAttr("hidden");
+            $(btn_down).eq(i).css('display', 'none');
+            $(btn_top).eq(i).css('display', 'block');
+        })
+    });
+    btn_top.each(function (i) {
+        $(this).click(function () {
+            let index1 = document.getElementsByClassName(i + 1);
+            $(index1).attr("hidden", "hidden");
+            $(btn_top).eq(i).css('display', 'none');
+            $(btn_down).eq(i).css('display', 'block');
+        })
+    });
+    $("#btn_zh").click(function () {
+        $("#btn_en").removeClass("active");
+        $("#btn_zh").addClass("active");
+    });
+    $("#btn_en").click(function () {
+        $("#btn_zh").removeClass("active");
+        $("#btn_en").addClass("active");
     })
+
+    $(function () {
+        let lan = $("#btn_zh").text();
+        if ('中文'==lan){
+            $("#btn_en").removeClass("active");
+            $("#btn_zh").addClass("active");
+        }else {
+            $("#btn_zh").removeClass("active");
+            $("#btn_en").addClass("active");
+        }
+        $("#domestic").css('background-color','#ddecff');
+    })
+
 </script>
 </body>
 </html>

@@ -16,6 +16,10 @@ button{
 *, *:before, *:after{
     box-sizing: inherit;
 }
+.container {
+    max-width: 750px;
+    min-width: 750px;
+}
 .con {
     max-width: 750px;
     position: absolute;
@@ -51,6 +55,39 @@ button{
 .img3{
     left: -26%;
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAAvCAMAAADD5EjdAAACEFBMVEUAAAD///8EAAAEAAD///8EAAD///8EAAD///////////////////////////////////////////////////////////////////////////////////////////////8EAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8EAAAEAAD///////////////////8EAAAEAAAEAAD///8EAAD///8EAAAEAAAEAAD///8EAAAEAAAEAAD///8EAAAEAAAEAAAEAAAEAAAEAAAEAAAEAAAEAAD///8AAAD/wxr/TgD/WgD/VQD/TwD/5h5GFQCQbQ//4x5rUAu2NwD/4B7/UwCqNAANAwD/2x3/1hz/0BthSgogFgP/UABOFwD//SL/yxv/xxr7wRmlfhFZQwj/ZQDtSgB/JgD/7R/dqhfAlBScdxB+YQ1NOghAOQg9LQYoHgTNRADXQgDGOgCeMQCLKgBkHgA3EAAlCwDkrhfdrRe/ohbBkxSVhBGCZA13Wgx8PQXnTgCVLgCfLQBFFQAxCgAUBgBlt7RhAAAAb3RSTlMA+LDoqAUc8HQGIPzCFAr05wxs4YFnGhdxVjz6WAPv6KJhJ/Oyr+ykfFNPPgjevaGRiVxLJR7jxjER8dXRjoZHNyIO2M2/upqUeGReQkEu28nEsqSeK7Wsp5Y/Iuq+l4VoTEP73nE7MRHs08xaVBVTIElJAAAGiElEQVRYw82YB3fSUBiGPxxVoKwCRaRQQQvSgspobe2y1daqrXvvvZUXbd2te++9995/0XtzE0ykRaznUJ9zIDcBkidf7pt7Ccms3jpu16iBGD5s/SoaKlaPS/2JtRtpSNizOZUHK2kI2JDKj0VUcFalOP9l5UbuTOVNoROxNZU/u6mwbEn9BdupkGzPOn5aon+39VRINmSpnXtwjvn1bziMCsnKLLdrt/bffnf13tmH505m+W2hQrI42633zOne3qO9Z668vnP1w9lH6g+Hj6QMruoigUEhWUoS+qKWOlKhN7kixGmts0nrgUCEzAaDjbyBgLSlOsl+XqTBYNa6pTn3T+2XuHSJKfZevJvu300/36MTGBWwkCRs5cZ2KnM4SWbsNEsJMbb5fFXEMJcjRJUej5Mc8JTyDTVgP9dp8LhJM5Ke5FfxwcVTZy7vVzh0ZAC3Vg+y8JHAzloxoIoEm4CJxFgCjGhqnDKdKmCkZsBJNZgpyVqQTVxTt/Thz49P3Pz09s2VM6eOHj11+lIuN5cH1skrRqhZ7iDBcsDmhVJGqgJGs4XXBwb3TABdAWCTgflJblasCan3tWQm4KZhGrfu7u7rT9Ppcw+v3bt75/aVyzncWoAQDUATOy516HQGjVuYeRkh6YyYmkgC02unLiPZrZ00uLnbIo1bz8ED3cfTCh+P5nCbBywhgZ5+owuYK1qRRFmt4raA2bQkA0tbyZCsDYwGmgLzAi1e4TaJNPjlumW7ybk4eyiH21igQ7RmBetN9MvZOSceAybFyyrDCTIBE2iscJs+Xcmx1ajzgMEWIgtWTGtrK/5F+/ycbmz1WK66NQMx0SoGSilDTJ0N3stDiltRc6KEMabaG8QvZLds5g7ezS3Cx5gAi0vd134RJPN4TFbcQhCUsRzb13XEYus66mGR3MrhsZaXW6NR9s6JRmuClYN38/ODSKzANFJfU78/Xg/jmLn+OZVUp3KbBUGY7EqMmoRbpAZTzWZbXURPNg7pI62t3sG7jQFmucvKytzumdA5WYsRD0dIohEQXdClcjNs2mbHzG2ddV47KsgdDIZpinDT29HGFqULimuJY2pbMJ1o8G4T0R+lsrgSVJPKjdGAZUKlgkoAZ8atBsWsVqUsQnoOq/A88z/ULZTLLQHMprrZy8mmdZuBNsXNz/SZm65IuC132dfYpwFWDqCLBhsH79Y5RqakAbrZJRJjnPI1LTKifXYQRoqo3EbPb9DB0jCjilRunmrhNtmA35g0WDc1IZYFLcrwFNXktAICv+LmV9wiVlSYJi2cCviKORZYimfO/ic3b3W1KXMPMRiqScZW0sDHpvEdSzX9bU77MguCE9prqYa5zeVuHcLNVi6NvSZlqFmAemL8i1sb4My4sZOeI24iU9aIId3FcwpUqPpbvTQ26cFUWJYStAJoIWJ3Gmn7UrE/vq+Gf3SrZQIuxY3nbr580oDODjRLOY3qOtRZYA6mgNc5sZmiQB1VTRzdSkRJXrDOrhgQq+rs7Oqaj5quRKAftxNpTh5u7KRnUcZNz0I2VkzeglMMAcBOHLNJT1Uqt4pmn0Me2iaQQiWvOX5jRPY8pOfJhZc/0hLHbl3O4WYyAkuF2zQTWzTKR1vXxEsxk4sLNG7TRHs2gNpQ25TMfC9pziOnB8739N14cvzLzQvfjx093Xvx6kBuE5XJYwg+7maAesyfztYaSdCicmNUUguPbJzWyV20Eygnm8MRha7JwbEi6HBU0rgstwMHz/f1sElmT/ezR/ePvT87kJuVHYWnb0y9cKN2oIkEcmWKbdwy7lBlAfWdPLxAiVRco0vcxv0iAjNIlQWt24XuPiYnc/D6V9Hz+ncrASxiiskakluzyIaqrjyEXiaScdOh0UtUCkSlpBQxfbZYIjqDzafMMBtErDT/F17eON/TzejrO8/kup8xrwHd3FMaE5nJhYk4ox2xavXsdyqS7HvgOIijX1ZGjOSaRnNm3J1ItGyByH0mHj7ohJta7uSrCy+en3h642Af/+dwQnjlHBeq4uGwu1JP/bK0lb3YF8LxJHG8JGGr+5VQf4IoINoup7NW3uoME2O9xk3AFL+9uHni8fP00D5I2ptSyFbM/mQcFZLVqYHoT24DFZS1qb9gBxUU9rj3/33gm3/hNu+gArMj74fRG6ngrB6en9oGGgL2LcrDbMsqGho2rt2c22zX1pE0ZKzeuH4cY9iiYSrY2mK2ceWe7TQE/AThnf2YjODk3wAAAABJRU5ErkJggg==') no-repeat 50%/100%;
+}
+.login_language_btn{
+    color: #fff;
+    font-size: 20px;
+    width: 70px;
+    height: 35px;
+    background-color: #808E98;
+    border: 1px solid #3762bc;
+    border-radius: 12px;
+    outline: none;
+    position: relative;
+    line-height: 34px;
+    left: 50px;
+    top: 20px;
+}
+.language_btn{
+    font-size: 20px;
+    width: 70px;
+    height: 35px;
+    border: 1px solid #ccdeff;
+    background-color: #ffffff00;
+    border-radius: 12px;
+    outline: none;
+    position: relative;
+    left: 270px;
+    top: -76px;
+    line-height: 34px;
+}
+.language_btn.active{
+     background-color: #85c8ecb8;
+ }
+.login_language_btn.active{
+    background-color: #85c8ecb8;
 }
 .span1{
     display: inline-block;
@@ -129,7 +166,7 @@ button{
     margin: auto;
     background-color: #fff;
     width: 700px;
-    height: 3600px;
+    height:auto;
     box-sizing:border-box;
     border-radius: 30px;
     padding: 0 30px 20px 30px;
@@ -149,7 +186,7 @@ button{
     line-height: 84px;
     width: 350px;
     height: 84px;
-    background-color: #ddecff;
+    background-color: #ddecff42;
     border: none;
     cursor: pointer;
     outline:none;
@@ -230,7 +267,7 @@ button{
       color: #178b50;
   }
 .text{
-    font-size: 24px;
+    font-size: 22px;
     color: #222;
 }
 .img_left{
@@ -253,21 +290,32 @@ button{
     left: -184px;
     border-radius: 12px;
     width: 130px;
-    height: 45px;
+    height:65px;
     border: 1px solid  #ccdeff;
     background-color: #fff;
     outline:none;
     margin-top: 35px;
 }
 .confirm_btn:active{
-    background-color: #eef4ff;
+    background-color: #005dff;
     color: #005dff;
+    border-radius: 12px;
+    outline:none;
 }
 .btn_confirm{
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 .btn_nowConfirm{
+    margin-left: -5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.login_btn_confirm{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.login_btn_nowConfirm{
     margin-left: -5px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -294,7 +342,7 @@ button{
 .canvas_btn{
     font-size: 24px;
     width: 200px;
-    height: 100px;
+    height: 105px;
     background-color: #f3f6f8;
     border: 1px solid #e9ebed;
     border-radius: 8px;
@@ -315,7 +363,7 @@ button{
 .canvas_btn2{
     font-size: 24px;
     width: 150px;
-    height: 100px;
+    height: 105px;
     background-color: #f3f6f8;
     border: 1px solid #e9ebed;
     border-radius: 8px;
@@ -337,7 +385,17 @@ button{
     border-collapse: collapse;
     border-spacing: 0;
 }
+.info_text_title{
+    text-align: left;
+    font-size: 28px;
+}
+.info_text_sub_title{
+    height: 40px;
+    text-align: left;
+    font-size: 19px;
+}
 .tab_title{
+    font-size: 24px;
     height: 80px;
     background-color: #f5f5f5;
 }
@@ -372,8 +430,22 @@ button{
 .data{
     height: 40px;
     font-size: 24px;
+    font-weight: 600;
+    line-height: 60px;
+    padding-top: 20px;
 }
-.down{
+.data_add{
+    font-size: 20px;
+    position: relative;
+    left: 245px;
+    top: -10px;
+
+}
+.city_data{
+    font-size: 20px;
+    line-height: 60px;
+}
+.btn_down{
     display: block;
     width: 16px;
     height: 12px;
@@ -381,10 +453,199 @@ button{
     background-size: 100%;
     position: relative;
     left: 25px;
+    top: -35px;
+    cursor: pointer;
+}
+.btn_top{
+    display: none;
+    width: 16px;
+    height: 12px;
+    background: url("../image/img/area_top.png") no-repeat 50%/100%;
+    background-size: 100%;
+    position: relative;
+    left: 25px;
+    top: -35px;
+    cursor: pointer;
 }
 .add_info{
     height: 30px;
     font-size: 14px;
 }
+.now{
+    width: 640px;
+    height: 500px;
+    position: relative;
+    top:-30px;
+}
+.gross{
+    width: 640px;
+    height: 500px;
+    position: relative;
+    top:-30px;
+}
+.info_city{
+    border-radius: 12px;
+    border: 1px solid #efefef;
+    margin-bottom: 40px;
+}
+.one{
+    border-bottom: 1px solid #f5f5f5;
+}
+.city_title{
+    position: relative;
+    top: 40px;
+}
+.info_button{
+    height: 120px;
+}
+.global_box{
+    width: 750px;
+}
+.inform_title{
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 60px;
+}
+.inform_box{
+    text-align: left;
+    background-color: #f8f8f8;
+    border-radius: 30px;
+    width: 640px;
+}
+.text_box {
+    width: 550px;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 20px 0;
+}
+.inform1,.inform5,.inform11{
+    height: 40px;
+    padding-top: 20px;
+    padding-bottom: 60px;
+}
+.inform_img{
+    width: 32px;
+    height: 32px;
+}
+.img_title{
+    font-size: 28px;
+    position: relative;
+    top: -40px;
+    left: 55px;
+    width: 500px;
+}
+.inform_point{
+    background-color: #005dff;
+    border-radius:10px ;
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+}
+.inform_text{
+    position: relative;
+    top: -25px;
+    left: 30px;
+    font-size: 24px;
+    font-weight: 500;
+}
+.source{
+    margin-top: 20px;
+}
+.login{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin: -150px 0 0 -150px;
+    width: 300px;
+    height: 300px;
+}
+.login_title{
+    display: block;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+}
+.input{
+    margin-bottom: 10px;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 13px;
+    color: #fff;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    width: 270px;
+}
+.submit{
+    display: block;
+    background-color: #4a77d4;
+    border: 1px solid #3762bc;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: normal;
+    width: 263px;
+}
+.login_body {
+    width: 100%;
+    height:100%;
+    font-family: 'Open Sans', sans-serif;
+    background: url("../image/img/bg.png") no-repeat;
+    background-size: cover;
+}
+.check{
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+}
+.checkbox{
+    height: 50px;
+    color: #D6D6D6;
+}
+.checkbox>a{
+    color: #D6D6D6;
+    cursor: pointer;
+}
+.forget{
+    margin-left: 75px;
+}
+.register{
+    margin-left: 10px;
+}
+.code{
+    margin-bottom: 15px;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 13px;
+    color: #fff;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    width: 120px;
+}
+.verification{
+    margin-left: 37px;
+    margin-bottom: 15px;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 13px;
+    color: #fff;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    width: 86px;
+}
+
+
 
 

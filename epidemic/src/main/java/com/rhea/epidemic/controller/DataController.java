@@ -1,12 +1,8 @@
 package com.rhea.epidemic.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
-import com.rhea.epidemic.domain.CityData;
-import com.rhea.epidemic.domain.GraphData;
-import com.rhea.epidemic.domain.ProvinceData;
-import com.rhea.epidemic.domain.TotalData;
+import com.rhea.epidemic.domain.*;
 import com.rhea.epidemic.service.BaseCityDataService;
 import com.rhea.epidemic.service.BaseGraphDataService;
 import com.rhea.epidemic.service.BaseProvinceDataService;
@@ -27,7 +23,7 @@ import java.util.Map;
  * 处理疫情数据的控制类
  */
 @Controller
-@RequestMapping("/epidemic")
+@RequestMapping("/epidemic/index")
 public class DataController {
     private final BaseProvinceDataService serviceP;
     private final BaseCityDataService serviceC;
@@ -43,11 +39,20 @@ public class DataController {
     @GetMapping
     public String list(Model model){
         //省市份数据
-        List<ProvinceData> provinceList = serviceP.list();
+        List<ProvinceData> provinceList = serviceP.selectAll();
         model.addAttribute("provinceList", provinceList);
         //市区数据
         List<CityData> cityList = serviceC.list();
         model.addAttribute("cityList",cityList);
+        List<MapData> nowList = new ArrayList<>();
+        List<MapData> grossList = new ArrayList<>();
+        for (int j = 0; j < provinceList.size(); j++) {
+            ProvinceData p = provinceList.get(j);
+            nowList.add((new MapData(p.getName(),p.getNowConfirm())));
+            grossList.add((new MapData(p.getName(),p.getConfirm())));
+        }
+        model.addAttribute("nowList",new Gson().toJson(nowList));
+        model.addAttribute("grossList",new Gson().toJson(grossList));
         //国内现在确诊人数折线图
         //List<GraphData> info = serviceG.list(new QueryWrapper<GraphData>().select("date", "now_confirm"));
         List<GraphData> info = serviceG.list();
@@ -110,7 +115,6 @@ public class DataController {
         model.addAttribute("listTop10",new Gson().toJson(listTop10));
         //获取每天总数统计
         TotalData total = serviceT.getOne(new QueryWrapper<>());
-        System.out.println(total);
         model.addAttribute("total",total);
         return "epidemic";
     }
